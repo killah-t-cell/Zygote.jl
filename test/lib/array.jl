@@ -28,8 +28,31 @@ end
     end
 end
 
-# TODO 
-@test "Dictionary iteration" begin
+@testset "Dictionary iteration" begin
+    # issue https://github.com/FluxML/Zygote.jl/issues/1065
+    
     d = Dict(:a => 5, :b => 6)
-    @test gradient(d -> first(d)[2], d) == (Dict(:a => 1, :b => nothing),)
+    @test_broken  gradient(d -> first(d)[2], d) == (Dict(:a => 1, :b => nothing),)
+    @test_broken gradient(d -> sum(v for v in values(d)) , d) == (Dict(:a => 1, :b => 1),)
+    @test_broken gradient(d -> sum(v for (k,v) in d) , d) == (Dict(:a => 1, :b => 1),)
+    
+    function f(d)
+        s = 0
+        for (k,v) in d
+            s += v
+        end
+        s
+    end
+    
+    @test_broken gradient(f, d) == (Dict(:a => 1, :b => 1),)
+
+    function fval(d)
+        s = 0
+        for (k,v) in values(d)
+            s += v
+        end
+        s
+    end
+    
+    @test_broken gradient(fval, d) == (Dict(:a => 1, :b => 1),)
 end
