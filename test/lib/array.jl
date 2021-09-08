@@ -27,3 +27,9 @@ end
         @test gradient(d -> sum(x^2 for x in collect(d)), t) == ((a = 2, b = 4),)
     end
 end
+
+# TODO 
+@test "Dictionary iteration" begin
+    d = Dict(:a => 5, :b => 6)
+    @test gradient(d -> first(d)[2], d) == (Dict(:a => 1, :b => nothing),)
+end

@@ -17,12 +17,12 @@ end
 
 @adjoint function collect(x::NamedTuple{names}) where names
   collect_namedtuple_pullback(dy) = (NamedTuple{names}(Tuple(dy)),) 
-  collect(x), collect_tuple_pullback
+  collect(x), collect_namedtuple_pullback
 end
 
 @adjoint function collect(x::AbstractArray)
   collect_array_pullback(dy) = (dy,)
-  collect(x), collect_tuple_pullback
+  collect(x), collect_array_pullback
 end
 
 @adjoint function collect(d::AbstractDict)
