@@ -268,8 +268,8 @@ end
 collect_if_dict(x::Dict) = collect(values(x)), collect(keys(x))
 collect_if_dict(x) = x, nothing
 
+# This reverses `collect_if_dict`, which returns `_keys::Nothing` if x is not a Dict
 reconstruct_if_dict(x̄, _keys::Nothing) = x̄
-
 function reconstruct_if_dict(x̄, _keys)
   @assert x̄ isa AbstractVector{<:Union{Nothing, NamedTuple{(:first,:second)}}}
   # we don't compute gradients with respect to keys 
