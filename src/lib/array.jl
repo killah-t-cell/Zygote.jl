@@ -265,7 +265,7 @@ for t in subtypes(AbstractWorkerPool)
 end
 @nograd workers
 
-collect_if_dict(x::Dict) = [x for x in x], collect(keys(x))
+collect_if_dict(x::Dict) = collect(values(x)), collect(keys(x))
 collect_if_dict(x) = x, nothing
 
 reconstruct_if_dict(x̄, _keys::Nothing) = x̄
